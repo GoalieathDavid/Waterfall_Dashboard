@@ -1,0 +1,29 @@
+,
+SOG Formulas(2 Dashboards): Prototype only,
+Contruct separately under two tabs,
+Historical Waterfall(2024 vs 2025),
+Pillar:, Formula:
+1.) Same-Store Baseline - Cafe,The Last Year Gross Sales of Cafes and Kiosks operating for FY 12 months operating cycle (Cafes).
+2.) Same-Store Baseline - Kiosk,The LY Gross Sales of Cafes and Kiosks operating for FY 12 months operating cycle (Kiosks).
+3.) Same-Store Sales Growth - Cafe,"How are our SSS growing: change in gross sales of the baseline stores, excluding new-product sales for Cafe(shown in their own bar)."
+4.) Same-Store Sales Growth - Kiosk ,"How are our SSS growing: change in gross sales of the baseline stores, excluding new-product sales for Kiosk(shown in their own bar)."
+5.) New-Store Sales Growth - Cafe,"Is the Gross sales of the Cafe CY (without a 12-month full operating calendar LY), excluding new-product sales."
+6.) New-Store Sales Growth - Kiosk,"Is the Gross sales of the Kiosk CY (without a 12-month full operating calendar LY), excluding new-product sales."
+7.) Innovation(New Products & Promotions in 2025),"These are the Gross Sales of all the Current Year New Products and Promotions (items first sold in the CY), in baseline and new stores (Computed per store or per outlet)"
+8.) 2025 Gross Sales,Running total: Gross sales of all Cafes and Kiosks in the CY of 2025.
+,
+,
+Tracking Waterfall(2025 vs 2026),
+Pillar:, Formula:
+1.) Same-Store Baseline - Cafe,The LY Gross Sales of Cafes operating for FY 12 months (same days as the as-of date) (Cafes).
+2.) Same-Store Baseline - Kiosk,The LY Gross Sales of Kiosks operating for FY 12 months (same days as the as-of date) (Kiosks).
+3.) Same-Store Sales Growth - Cafe,"How are our SSS growing: change in gross sales of the baseline stores, excluding new-product sales for Cafe. Show on top of bar the percentage of growth(or decline).
+"
+4.) Same-Store Sales Growth - Kiosk ,"How are our SSS growing: change in gross sales of the baseline stores, excluding new-product sales for Kiosk. Show on top of bar the percentage of growth(or decline).
+ "
+5.) New-Store Sales Growth - Cafe,"Is the Gross sales of the Cafe CY (without a 12-month full operating calendar LY), excluding new-product sales. Show on top of bar the percentage of achievement towards target."
+6.) New-Store Sales Growth - Kiosk,"Is the Gross sales of the Kiosk CY (without a 12-month full operating calendar LY), excluding new-product sales. Show on top of bar the percentage of achievement towards target."
+7.) Innovation(New Products & Promotions in 2026),"These are the Gross Sales of all the Current Year New Products and Promotions (items first sold in the CY), in baseline and new stores. Show on top of bar the percentage of achievement towards target. (Computed per cafe or per kiosk)"
+8.) 2026 Gross Sales(YTD) - Cafe  ,"Running total: 2026 gross sales of all Cafes, Jan 1 to the as-of date."
+9.) 2026 Gross Sales(YTD) - Kiosk,"Running total: 2026 gross sales of all Kiosks, Jan 1 to the as-of date."
+10.) 2026 Gross Sales,The year-end gross sales target (Assumptions).
