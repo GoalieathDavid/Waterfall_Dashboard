@@ -1,0 +1,53 @@
+,,,,,,,,,,,,,,,,,
+,,,Same-Store Baseline – Café,"4,157.35","4,157,345,037.06",,,,,,,,,,,,
+,,,Same-Store Baseline – Kiosk,550.87,"550,866,524.00",,,,,,,,,,,,
+,,,Same-Store Sales Growth – Café,-54.42,"-54,419,078.40",,,,,,,,,,,,
+,,,Same-Store Sales Growth – Kiosk,-34.80,"-34,798,716.00",,,,,,,,,,,,
+,,,New-Store Sales Growth – Café,370.25,"370,247,742.68",,,,,,,,,,,,
+,,,New-Store Sales Growth – Kiosk,0.57,"569,328.00",,,,,,,,,,,,
+,,,Innovation (New Products & Promotions in 2025),108.41,"108,407,370.10",,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,"5,098.22","5,098,218,207.44",,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,Same-Store Baseline – Café,"3,272.05","3,272,054,455.89",,,,,,,,,,,,
+,,,Same-Store Baseline – Kiosk,363.76,"363,760,132.02",,,,,,,,,,,,
+,,,Same-Store Sales Growth – Café,-83.19,"-83,194,489.02",,,,,,,,,,,,
+,,,Same-Store Sales Growth – Kiosk,-31.49,"-31,491,826.93",,,,,,,,,,,,
+,,,New-Store Sales Growth – Café,197.99,"197,988,501.26",,,,,,,,,,,,
+,,,New-Store Sales Growth – Kiosk,7.02,"7,017,746.00",,,,,,,,,,,,
+,,,Innovation (New Products & Promotions in 2025),98.87,"98,867,092.47",,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+Kiosk,ONE AYALA,NS,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,SAME STORE SALES,BASELINE,,
+,,ESTABLISH BASELINE,Same-Store Baseline – Café,"3,872.05","3,272,054,455.89",,,,,,,,,January,512512,Actual,Trend
+,,ESTABLISH BASELINE,Same-Store Baseline – Kiosk,663.76,"363,760,132.02",,,,,,,,,February,325252,Actual,Trend
+Assumption,SSSG for Cafe will grow by 5%,3%,Same-Store Sales Growth – Café,116.16,"-83,194,489.02",,,,,,,,,March,1251251251,Actual,Trend
+Assumption,SSSG for Kiosk will grow by 1%,1%,Same-Store Sales Growth – Kiosk,6.64,"-31,491,826.93",,,,,,,,,April,5125125,Actual,Trend
+Assumption,"10 Cafes 
+1 Kiosk
+Average Monthly Sales of 2M",,New-Store Sales Growth – Café,197.99,"197,988,501.26",,,,,,,,,May,5125125,Actual,Trend
+Assumption,"10 Cafes 
+1 Kiosk
+Average Monthly Sales of 2M",,New-Store Sales Growth – Kiosk,7.02,"7,017,746.00",,,,,,,,,June,5125125,Actual,Trend
+,,,Innovation (New Products & Promotions in 2025),98.87,"98,867,092.47",,,,,,,,,July,5125125,Actual,Trend
+,,,,,,,,,,,,,,August,5125125,Actual,Trend
+,,,,,,,,,,,,,,September,5125125,Actual,Trend
+,,,,,,,,,,,,,,October,5125125,Actual,Trend
+,,,,,,,,,,,,,,November,15251251,Assumption,Based on trending growth for Nov 2025
+,,,,,,,,,,,,,,December,1525151,Assumption,Based on trending growth for Dec 2025
+,,,,,,,,,,,,,,,1304741292,,
