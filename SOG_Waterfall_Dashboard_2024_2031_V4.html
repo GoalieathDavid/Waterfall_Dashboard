@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SOG Multi-Year Waterfall Dashboard (2024–2031) · V4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+<style>
+  :root { --cream:#FCF9F6; --surface:#FFFFFF; --line:#EADFD3; --espresso:#3B2418; --ink:#3B2A20; --muted:#7A6656; --amber:#DC9400; --amber-soft:#FFE7AD; }
+  body { font-family: Poppins, system-ui, sans-serif; background:var(--cream); color:var(--ink); font-size:14px; }
+  h1,h2,h3,.serif { font-family: "Source Serif 4", Georgia, serif; color:var(--espresso); }
+  .tnum { font-variant-numeric: tabular-nums; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:16px; }
+  .seg { display:inline-flex; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; }
+  .seg button { padding:6px 12px; font-size:13px; display:flex; align-items:center; gap:6px; color:var(--ink); border-right:1px solid var(--line); }
+  .seg button:last-child { border-right:0; }
+  .seg button[aria-pressed=true] { background:var(--espresso); color:#FFF7E6; }
+  .seg button:hover:not([aria-pressed=true]) { background:#F7EFE6; }
+  .field { border:1px solid #DCCFC2; border-radius:10px; padding:4px 8px; background:#fff; color:var(--ink); }
+  .field:focus { outline:2px solid var(--amber); outline-offset:1px; }
+  .btn { border:1px solid #DCCFC2; border-radius:12px; padding:5px 10px; font-size:12px; display:inline-flex; align-items:center; gap:6px; background:#fff; }
+  .btn:hover { background:#F7EFE6; }
+  .pill { white-space:nowrap; display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:600; padding:2px 8px; border-radius:9999px; }
+  .pos { background:#E8F1E4; color:#2F6B2A; } .neg { background:#FBE7E2; color:#A5321D; } .neu { background:#F3ECE4; color:#6B5646; }
+  #boot { padding:40px; color:var(--muted); }
+  input[type=number]::-webkit-inner-spin-button { opacity:1; }
+</style>
+</head>
+<body>
+<div id="root"><div id="boot">Loading SOG dashboard…</div></div>
+<script>window.SOG_DATA = {"ytd_share": {"cafe": 0.722787, "kiosk": 0.696209, "all": 0.720062}, "R": {"2025": {"cafe": {"base": 4014935654.66, "n_base": 65, "sss_cy_ex": 3972718855.97, "new": 500454845.37, "n_new": 15, "inn": 102249289.1, "inn_base": 88689404.46, "inn_new": 13559884.64, "cy": 4575422990.44, "n_cy": 80, "ly_total": 4271805927.07, "n_ly": 75, "held_back": 3, "tx_ly": 3158714.0, "tx_cy": 3251581.0, "tx_ly_base": 2963721.0, "tx_cy_base": 2880768.0, "inn_items": 68, "sss": -42216798.69}, "kiosk": {"base": 550866524.0, "n_base": 66, "sss_cy_ex": 512590811.0, "new": 560462.0, "n_new": 1, "inn": 9643944.0, "inn_base": 9603584.0, "inn_new": 40360.0, "cy": 522795217.0, "n_cy": 66, "ly_total": 566889077.0, "n_ly": 68, "held_back": 0, "tx_ly": 667689.0, "tx_cy": 615357.0, "tx_ly_base": 646675.0, "tx_cy_base": 614666.0, "inn_items": 68, "sss": -38275713.0}}, "2026YTD": {"cafe": {"base": 3239767758.94, "n_base": 74, "sss_cy_ex": 3196066233.83, "new": 227762425.61, "n_new": 9, "inn": 46305586.48, "inn_base": 43148415.41, "inn_new": 3157171.07, "cy": 3470134245.92, "n_cy": 83, "ly_total": 3307056878.99, "n_ly": 77, "held_back": 1, "tx_ly": 2371043.0, "tx_cy": 2436799.0, "tx_ly_base": 2329871.0, "tx_cy_base": 2286562.0, "inn_items": 47, "sss": -43701525.11}, "kiosk": {"base": 357039328.0, "n_base": 63, "sss_cy_ex": 339964011.03, "new": 6954740.0, "n_new": 3, "inn": 2902638.68, "inn_base": 2839632.68, "inn_new": 63006.0, "cy": 349821389.71, "n_cy": 66, "ly_total": 363974936.0, "n_ly": 65, "held_back": 0, "tx_ly": 442587.0, "tx_cy": 423501.0, "tx_ly_base": 434710.0, "tx_cy_base": 413616.0, "inn_items": 47, "sss": -17075316.97}}, "2026FY": {"cafe": {"sss_cy_ex": 4421863747.84, "new": 315116877.82, "inn": 64065316.3, "inn_base": 59697265.3, "inn_new": 4368051.0, "tx_cy": 3371392.32, "tx_cy_base": 3163534.44, "base": 4449269237.61, "ly_total": 4575422990.44, "n_base": 74, "n_new": 9, "n_cy": 83, "n_ly": 77, "inn_items": 47, "held_back": 1, "tx_ly": 3251581.0, "tx_ly_base": 3175274.0, "runrate": 1.383533, "cy": 4801045941.96, "sss": -27405489.77}, "kiosk": {"sss_cy_ex": 488307136.95, "new": 9989437.32, "inn": 4169203.61, "inn_base": 4078704.98, "inn_new": 90498.64, "tx_cy": 608295.45, "tx_cy_base": 594097.13, "base": 515258787.0, "ly_total": 522795217.0, "n_base": 63, "n_new": 3, "n_cy": 66, "n_ly": 65, "inn_items": 47, "held_back": 0, "tx_ly": 615357.0, "tx_ly_base": 606789.0, "runrate": 1.436349, "cy": 502465777.88, "sss": -26951650.05}}, "2026BOY": {"cafe": {"sss_cy_ex": 1225797514.01, "new": 87354452.21, "inn": 17759729.82, "inn_base": 16548849.89, "inn_new": 1210879.93, "tx_cy": 934593.32, "tx_cy_base": 876972.44, "base": 1209501478.67, "ly_total": 1268366111.45, "n_base": 74, "n_new": 9, "n_cy": 83, "n_ly": 77, "inn_items": 47, "held_back": 1, "tx_ly": 880538.0, "tx_ly_base": 845403.0, "runrate": 1.383533, "cy": 1330911696.04, "sss": 16296035.34}, "kiosk": {"sss_cy_ex": 148343125.92, "new": 3034697.32, "inn": 1266564.93, "inn_base": 1239072.3, "inn_new": 27492.64, "tx_cy": 184794.45, "tx_cy_base": 180481.13, "base": 158219459.0, "ly_total": 158820281.0, "n_base": 63, "n_new": 3, "n_cy": 66, "n_ly": 65, "inn_items": 47, "held_back": 0, "tx_ly": 172770.0, "tx_ly_base": 172079.0, "runrate": 1.436349, "cy": 152644388.17, "sss": -9876333.08}}}, "T24": {"cafe": 4271805927.07, "kiosk": 566889077.0}, "cohort26": {"cafe": {"n": 5, "ytd": 92766055.96, "fy": 128344918.37, "monthly": 13377194.84, "names": ["Evia", "Rockwell Santolan", "Shangrila 2 Mall", "SM Sto. Tomas", "UERM Medical Center"]}, "kiosk": {"n": 2, "ytd": 4320864.0, "fy": 6206270.84, "monthly": 865682.67, "names": ["One Ayala", "SM Marikina"]}}, "tiers": {"cafe": [{"tier": "Premium", "n": 25, "median": 6907897.31, "lo": 5857373.54, "hi": 10829013.31, "min": 5535845.12, "max": 18221159.92, "examples": ["NAIA", "SM Mall of Asia", "Robinsons Manila (Midtown)", "Robinsons Magnolia"]}, {"tier": "Mid-Range", "n": 25, "median": 4609187.62, "lo": 3738952.17, "hi": 5449198.53, "min": 3593113.06, "max": 5509143.93, "examples": ["Estancia", "Robinsons Antipolo"]}, {"tier": "Low-Range", "n": 25, "median": 2545055.45, "lo": 1372322.79, "hi": 3477367.66, "min": 145479.39, "max": 3570507.16, "examples": ["SM Pasig", "Century City Mall", "Robinsons Galleria", "Robinsons Tagaytay"]}], "kiosk": [{"tier": "Premium", "n": 21, "median": 882599.33, "lo": 765987.17, "hi": 1326572.33, "min": 751879.25, "max": 1408905.58, "examples": ["Rockwell Power Plant", "Makati Medical Center", "Robinsons Malolos", "Robinsons Magnolia"]}, {"tier": "Mid-Range", "n": 21, "median": 645398.25, "lo": 553478.08, "hi": 731076.25, "min": 542856.5, "max": 748961.25, "examples": ["Shangrila", "Virra Mall", "Robinsons Antipolo", "Robinsons Gen Trias"]}, {"tier": "Low-Range", "n": 21, "median": 457367.67, "lo": 371896.42, "hi": 515307.5, "min": 234671.25, "max": 528157.83, "examples": ["SM Telabastagan", "SM Lucena", "Robinsons Lipa Batangas"]}]}, "inn_rate": {"cafe": 0.019933, "kiosk": 0.012799}, "runrate": {"cafe": 1.383533, "kiosk": 1.436349}, "asof": "2026-09-30", "target_total": 5371660926.93};</script>
+<script type="text/babel" data-presets="react">
+const { useState, useMemo, useEffect } = React;
+const D = window.SOG_DATA;
+
+/* ---------- Mary Grace palette (chart colors checked with the palette validator; the sage/terracotta pair
+   also carries signs, ▲/▼ glyphs and a hatch on declines so it never relies on color alone) ---------- */
+const C = { base:'#4A2C1D', pos:'#5A9446', neg:'#C2462E', newS:'#DC9400', inn:'#A3262A', total:'#8C7A6B',
+            grid:'#EFE6DC', axis:'#BFAE9E', ink:'#3B2A20', ink2:'#7A6656', proj:'#D9C7B5', fc:'#E9DCCB' };
+
+/* ---------- Lucide icons (inlined SVG paths, ISC licence) ---------- */
+const Icon = ({ d, size=16, className='' }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>{d}</svg>;
+const I = {
+  left:<path d="m15 18-6-6 6-6"/>, right:<path d="m9 18 6-6-6-6"/>, down:<path d="m6 9 6 6 6-6"/>,
+  reset:<><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></>,
+  download:<><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></>,
+  copy:<><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></>,
+  bars:<><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></>,
+  trend:<><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></>,
+  sliders:<><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></>,
+  target:<><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></>,
+  table:<><path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/></>,
+  users:<><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>,
+  scale:<><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></>,
+  store:<><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></>,
+};
+
+/* ---------- model ---------- */
+const BRIDGE_YEARS = [2025,2026,2027,2028,2029,2030,2031];
+const FC_YEARS = [2027,2028,2029,2030,2031];
+const TIER_NAMES = ['Premium','Mid-Range','Low-Range'];
+const defaultTiers = (f, counts) => D.tiers[f].map((t,i) => ({ tier:t.tier, n:counts[i], monthly:+(t.median/1e6).toFixed(2) }));
+const DEFAULT_SB = { gC:5.0, gK:1.0, monthsFirst:6,
+  innC:+(D.inn_rate.cafe*100).toFixed(2), innK:+(D.inn_rate.kiosk*100).toFixed(2),
+  tiersC: defaultTiers('cafe',[1,2,2]), tiersK: defaultTiers('kiosk',[0,1,1]) };
+const DEFAULT_TG = { total:D.target_total, g27:5.0, gPost:2.0, newC:null, newK:null, innC:null, innK:null };
+/* Annual target trend: 2026 = team target; 2027 = 2026 target × (1 + g27); 2028–2031 = prior-year target × (1 + gPost).
+   Each year compounds once on the prior year's target, so 2027 is never shifted twice. */
+const TARGET_YEARS = [2026,2027,2028,2029,2030,2031];
+function targetFor(year, tg) {
+  if (year < 2026 || tg.total == null) return null;
+  let t = tg.total;
+  for (let y = 2027; y <= year; y++) t *= 1 + ((y === 2027 ? tg.g27 : tg.gPost) || 0)/100;
+  return t;
+}
+const growthLabel = (y, tg) => y === 2026 ? 'team target' : y === 2027 ? `+${tg.g27}% on 2026` : `+${tg.gPost}% on ${y-1}`;
+function periodTarget(r, tg) {          // target matched to the period shown (YTD / balance of year pro-rated with 2025 seasonality)
+  const t = targetFor(r.year, tg); if (t == null) return null;
+  return r.period === 'ytd' ? t*D.ytd_share.all : r.period === 'boy' ? t*(1-D.ytd_share.all) : t;
+}
+
+function norm(raw, year, kind, period) {
+  const f = o => ({ base:o.base, sss:o.sss, nw:o.new, inn:o.inn, innBase:o.inn_base, innNew:o.inn_new, cy:o.cy, ly:o.ly_total,
+    nBase:o.n_base, nNew:o.n_new, nCy:o.n_cy, items:o.inn_items, sssCyEx:o.sss_cy_ex, heldBack:o.held_back,
+    txLy:o.tx_ly, txCy:o.tx_cy, txLyBase:o.tx_ly_base, txCyBase:o.tx_cy_base });
+  return { year, kind, period, c:f(raw.cafe), k:f(raw.kiosk) };
+}
+function buildAll(sb) {
+  const out = {
+    2025: norm(D.R['2025'], 2025, 'actual', 'fy'),
+    '2026ytd': norm(D.R['2026YTD'], 2026, 'ytd', 'ytd'),
+    '2026boy': norm(D.R['2026BOY'], 2026, 'boy', 'boy'),
+    2026: norm(D.R['2026FY'], 2026, 'projected', 'fy'),
+  };
+  let prev = out[2026];
+  let cohort = { c:{ n:D.cohort26.cafe.n, sales:D.cohort26.cafe.fy, monthly:D.cohort26.cafe.monthly, names:D.cohort26.cafe.names },
+                 k:{ n:D.cohort26.kiosk.n, sales:D.cohort26.kiosk.fy, monthly:D.cohort26.kiosk.monthly, names:D.cohort26.kiosk.names } };
+  for (const y of FC_YEARS) {
+    const next = {};
+    const grow = (f, g, innRate, tiers) => {
+      const p = prev[f], co = cohort[f], gf = Math.pow(1+g/100, y-2026);
+      const base = p.cy - co.sales, nBase = p.nCy - co.n, sss = base*g/100;
+      const second = co.monthly * 12 * (1+g/100);
+      const tierRows = tiers.map(t => ({ ...t, sales: t.n * t.monthly*1e6 * gf * sb.monthsFirst, monthlyY: t.monthly*1e6*gf }));
+      const first = tierRows.reduce((a,t)=>a+t.sales,0), nOpen = tiers.reduce((a,t)=>a+(+t.n||0),0);
+      const nw = second + first, inn = base*innRate/100;
+      next[f] = { n:nOpen, sales:first, monthly: tierRows.reduce((a,t)=>a+t.n*t.monthlyY,0) };
+      return { base, sss, nw, inn, innBase:inn, innNew:0, cy:base+sss+nw+inn, ly:p.cy, nBase, nNew:co.n+nOpen, nCy:nBase+co.n+nOpen,
+               sssCyEx:base+sss, second, first, prevCohortN:co.n, tierRows, items:null };
+    };
+    out[y] = { year:y, kind:'forecast', period:'fy', c:grow('c', sb.gC, sb.innC, sb.tiersC), k:grow('k', sb.gK, sb.innK, sb.tiersK) };
+    prev = out[y]; cohort = next;
+  }
+  return out;
+}
+const tot = (r, key) => (r.c[key]||0) + (r.k[key]||0);
+
+/* ---------- formatting ---------- */
+function makeFmt(unit, cur, fx, denom) {
+  const sym = cur === 'USD' ? '$' : '₱';
+  const conv = v => cur === 'USD' ? v/fx : v;
+  const money = (v, signed=false, forceM=false) => {
+    if (v == null || isNaN(v)) return '—';
+    const s = signed ? (v>0?'+':v<0?'−':'') : (v<0?'−':'');
+    const a = Math.abs(conv(v));
+    if (unit === 'exact' && !forceM) return `${s}${sym}${a.toLocaleString('en-US',{maximumFractionDigits:0})}`;
+    return `${s}${sym}${(a/1e6).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1})}M`;
+  };
+  const val = (v, signed=false) => {
+    if (unit === 'pct') { const p = v/denom*100; const s = signed?(p>0?'+':p<0?'−':''):(p<0?'−':''); return `${s}${Math.abs(p).toFixed(2)}%`; }
+    return money(v, signed);
+  };
+  return { money, val, unitPct: unit==='pct' };
+}
+const pct = (v, d=1, signed=true) => (v==null||!isFinite(v)) ? '—' : `${signed?(v>0?'+':v<0?'−':''):''}${Math.abs(v*100).toFixed(d)}%`;
+const mfull = v => v==null ? '—' : `₱${(v/1e6).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}M`;
+const Badge = ({ v, d=2, suffix='' }) => <span className={`pill tnum ${v==null||!isFinite(v)?'neu':v>0?'pos':v<0?'neg':'neu'}`}>{v>0?'▲':v<0?'▼':''} {pct(v,d)}{suffix}</span>;
+const PERIOD_LABEL = { ytd:'YTD actual · Jan–Sep', boy:'Balance of year · Oct–Dec (projected)', fy:'Full year' };
+
+/* ---------- waterfall bars ---------- */
+function barsFor(r, tg, tgtTotal) {
+  const ly = tot(r,'ly'), is26 = r.year===2026, fcst = r.kind==='forecast';
+  const tShare = r.period==='ytd' ? D.ytd_share : r.period==='boy' ? { cafe:1-D.ytd_share.cafe, kiosk:1-D.ytd_share.kiosk } : { cafe:1, kiosk:1 };
+  const ach = (v, t, f) => (is26 && t) ? `${pct(v/(t*1e6*tShare[f]),0,false)} of target` : null;
+  const avg = (v,n) => n ? v/n : null;
+  const win = r.period==='ytd' ? ' (Jan–Sep window)' : r.period==='boy' ? ' (Oct–Dec window)' : '';
+  const newTip = (f, label) => { const x = r[f];
+    if (fcst) return `${x.prevCohortN} ${label} opened in ${r.year-1} in their 2nd year (${mfull(x.second)}) + first-year openings by tier: ${x.tierRows.map(t=>`${t.n} ${t.tier} × ₱${(t.monthlyY/1e6).toFixed(2)}M/mo × ${DEFAULT_MONTHS()} mo`).join(', ')} (${mfull(x.first)})`;
+    return `CY gross of ${label} that had not completed 13 full months by 1 Jan ${r.year} (or lacked a full ${r.year-1} calendar), excl. innovation sales`; };
+  const B = [
+    { key:'baseC', label:'Same-Store Baseline – Café', short:['Baseline','Café'], v:r.c.base, type:'base', badge: r.c.nBase ? `${r.c.nBase} cafés` : null,
+      tip:{ stores:r.c.nBase, avg:avg(r.c.base,r.c.nBase), formula: fcst ? `${r.year-1} café sales less the ${r.c.prevCohortN} cafés opened in ${r.year-1} (still under 13 months)` : `LY gross of cafés with ≥13 full months by 1 Jan ${r.year} and sales in all 12 LY months${win}` } },
+    { key:'baseK', label:'Same-Store Baseline – Kiosk', short:['Baseline','Kiosk'], v:r.k.base, type:'base', badge: r.k.nBase ? `${r.k.nBase} kiosks` : null,
+      tip:{ stores:r.k.nBase, avg:avg(r.k.base,r.k.nBase), formula: fcst ? `${r.year-1} kiosk sales less the ${r.k.prevCohortN} kiosks opened in ${r.year-1}` : `LY gross of kiosks with ≥13 full months by 1 Jan ${r.year} and sales in all 12 LY months${win}` } },
+    { key:'sssC', label:'Same-Store Sales Growth – Café', short:['SSS Growth','Café'], v:r.c.sss, type:'delta', badge:pct(r.c.sss/r.c.base,2), badgeTone:true,
+      tip:{ stores:r.c.nBase, avg:avg(r.c.sssCyEx,r.c.nBase), formula:`(CY gross of baseline cafés − their CY innovation sales) − baseline = ${mfull(r.c.sssCyEx)} − ${mfull(r.c.base)}` } },
+    { key:'sssK', label:'Same-Store Sales Growth – Kiosk', short:['SSS Growth','Kiosk'], v:r.k.sss, type:'delta', badge:pct(r.k.sss/r.k.base,2), badgeTone:true,
+      tip:{ stores:r.k.nBase, avg:avg(r.k.sssCyEx,r.k.nBase), formula:`(CY gross of baseline kiosks − their CY innovation sales) − baseline = ${mfull(r.k.sssCyEx)} − ${mfull(r.k.base)}` } },
+    { key:'newC', label:'New-Store Sales Growth – Café', short:['New Stores','Café'], v:r.c.nw, type:'new', badge: ach(r.c.nw, tg.newC, 'cafe') || `${pct(r.c.nw/ly,2)} of LY`,
+      tip:{ stores:r.c.nNew, avg:avg(r.c.nw,r.c.nNew), formula:newTip('c','cafés') } },
+    { key:'newK', label:'New-Store Sales Growth – Kiosk', short:['New Stores','Kiosk'], v:r.k.nw, type:'new', badge: ach(r.k.nw, tg.newK, 'kiosk') || `${pct(r.k.nw/ly,2)} of LY`,
+      tip:{ stores:r.k.nNew, avg:avg(r.k.nw,r.k.nNew), formula:newTip('k','kiosks') } },
+    { key:'innC', label:'Innovation – Café', short:['Innovation','Café'], v:r.c.inn, type:'inn', badge: ach(r.c.inn, tg.innC, 'cafe') || `${pct(r.c.inn/ly,2)} of LY`,
+      tip:{ stores:r.c.nCy, avg:null, split:[r.c.innBase, r.c.innNew], items:r.c.items, formula: fcst ? `Café innovation run-rate × café baseline` : `CY gross of items first sold in ${r.year} (company-wide) at cafés, summed per outlet` } },
+    { key:'innK', label:'Innovation – Kiosk', short:['Innovation','Kiosk'], v:r.k.inn, type:'inn', badge: ach(r.k.inn, tg.innK, 'kiosk') || `${pct(r.k.inn/ly,2)} of LY`,
+      tip:{ stores:r.k.nCy, avg:null, split:[r.k.innBase, r.k.innNew], items:r.k.items, formula: fcst ? `Kiosk innovation run-rate × kiosk baseline` : `CY gross of items first sold in ${r.year} (company-wide) at kiosks, summed per outlet` } },
+    { key:'total', label:'Total Gross Sales', short:['Total','Gross Sales'], v:tot(r,'cy'), type:'total',
+      badge: tgtTotal ? `${pct(tot(r,'cy')/tgtTotal,1,false)} of target` : `${pct(tot(r,'cy')/ly-1,2)} YoY`,
+      tip:{ stores:(r.c.nCy||0)+(r.k.nCy||0)||null, avg:((r.c.nCy||0)+(r.k.nCy||0)) ? tot(r,'cy')/((r.c.nCy||0)+(r.k.nCy||0)) : null,
+            formula:`Sum of pillars 1–7 · YoY ${pct(tot(r,'cy')/ly-1,2)} vs LY ${mfull(ly)} (of which ${mfull(ly-tot(r,'base'))} from LY stores outside the baseline)` + (tgtTotal ? ` · ${r.period==='fy'?'Annual':'Pro-rata'} target ${mfull(tgtTotal)} (${growthLabel(r.year, tg)}), variance ${mfull(tot(r,'cy')-tgtTotal)}` : '') } },
+  ];
+  let run = 0;
+  for (const b of B) {
+    if (b.type==='total') { b.start=0; b.end=b.v; } else { b.start=run; b.end=run+b.v; run=b.end; }
+    b.color = b.type==='base'?C.base : b.type==='total'?C.total : b.type==='new'?C.newS : b.type==='inn'?C.inn : (b.v>=0?C.pos:C.neg);
+    b.hatch = b.type==='delta' && b.v < 0;
+  }
+  return B;
+}
+let _months = 6; const DEFAULT_MONTHS = () => _months;
+
+/* ---------- UI atoms ---------- */
+function Seg({ options, value, onChange, label }) {
+  return <div className="seg" role="group" aria-label={label}>{options.map(o =>
+    <button key={o.value} aria-pressed={value===o.value} onClick={()=>onChange(o.value)}>{o.icon && <Icon d={o.icon} size={14}/>}{o.label}</button>)}</div>;
+}
+function NumField({ label, value, onChange, step=0.1, min, max, suffix, hint, disabled, w='w-20' }) {
+  return <label className={`flex items-center justify-between gap-2 text-xs ${disabled?'opacity-50':''}`} style={{color:'var(--muted)'}}>
+    <span className="leading-tight">{label}{hint && <span className="block text-[11px]" style={{color:'#A08E7E'}}>{hint}</span>}</span>
+    <span className="flex items-center gap-1 shrink-0"><input type="number" className={`field tnum text-right ${w}`} value={value ?? ''} step={step} min={min} max={max} disabled={disabled}
+      onChange={e => onChange(e.target.value === '' ? null : +e.target.value)}/>{suffix && <span>{suffix}</span>}</span></label>;
+}
+const KindTag = ({ kind }) => {
+  const m = { actual:['Actual','pos'], ytd:['YTD actual','pos'], boy:['Balance of year · projected','neu'], projected:['YTD actual + projection','neu'], forecast:['Forecast','neu'] }[kind];
+  return <span className={`pill ${m[1]}`}>{m[0]}</span>;
+};
+function Kpi({ title, value, badge, children, icon }) {
+  return <div className="card p-4 min-w-0 flex flex-col">
+    <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide" style={{color:'var(--muted)'}}>{icon && <Icon d={icon} size={14}/>}{title}</div>
+    <div className="flex items-baseline flex-wrap gap-2 mt-1"><span className="text-[22px] font-semibold tnum serif">{value}</span>{badge}</div>
+    {children && <div className="mt-2 pt-2 border-t text-xs space-y-1 tnum" style={{borderColor:'var(--line)'}}>{children}</div>}
+  </div>;
+}
+const Row = ({ label, v, p, fmt, signed=true }) => <div className="flex items-center justify-between gap-2"><span className="min-w-0 truncate" style={{color:'var(--muted)'}} title={label}>{label}</span>
+  <span className="flex items-center gap-1.5 shrink-0 whitespace-nowrap"><span className="font-medium">{fmt.money(v, signed)}</span>{p!==undefined && <Badge v={p}/>}</span></div>;
+
+/* ---------- waterfall ---------- */
+function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(raw||1))); const n = raw/p; return (n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*p; }
+function Waterfall({ bars, fmt, zoom, title }) {
+  const W=1120, H=470, M={t:58,r:16,b:66,l:86}, iw=W-M.l-M.r, ih=H-M.t-M.b;
+  const [hover, setHover] = useState(null);
+  const hi = Math.max(...bars.map(b=>Math.max(b.start,b.end)));
+  let lo = 0;
+  if (zoom) { const raw = Math.min(...bars.filter(b=>b.type!=='total'&&b.key!=='baseC').map(b=>Math.min(b.start,b.end))); lo = Math.max(0, raw-(hi-raw)*0.9); }
+  const step = niceStep((hi-lo)/5); lo = Math.floor(lo/step)*step; const top = Math.ceil(hi*1.06/step)*step;
+  const y = v => M.t + ih - (Math.max(v,lo)-lo)/(top-lo)*ih;
+  const bw = iw/bars.length, pad = bw*0.2;
+  const ticks=[]; for (let v=lo; v<=top+1; v+=step) ticks.push(v);
+  return <div className="relative">
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label={title}>
+      <defs><pattern id="hatchNeg" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill={C.neg}/><line x1="0" y1="0" x2="0" y2="6" stroke="#fff" strokeOpacity=".45" strokeWidth="2"/></pattern></defs>
+      {ticks.map(t => <g key={t}><line x1={M.l} x2={W-M.r} y1={y(t)} y2={y(t)} stroke={C.grid}/>
+        <text x={M.l-10} y={y(t)+4} textAnchor="end" fontSize="12" fill={C.ink2} className="tnum">{(fmt.unitPct?fmt.val(t):fmt.money(t,false,true)).replace('.0M','M').replace('.00%','%')}</text></g>)}
+      {bars.map((b,i) => {
+        const x = M.l+i*bw+pad, w = bw-2*pad, y1 = y(Math.max(b.start,b.end)), y2 = y(Math.min(b.start,b.end)), h = Math.max(2, y2-y1);
+        const clipped = zoom && lo>0 && Math.min(b.start,b.end) < lo, next = bars[i+1];
+        return <g key={b.key} onMouseEnter={()=>setHover(i)} onMouseLeave={()=>setHover(null)}>
+          <rect x={M.l+i*bw} y={M.t} width={bw} height={ih} fill={hover===i?'#3B241808':'transparent'}/>
+          <rect x={x} y={y1} width={w} height={h} rx="4" fill={b.hatch?'url(#hatchNeg)':b.color}/>
+          {clipped && <path d={`M${x-3},${y2-10} l${w/4+1.5},-6 l${w/4},6 l${w/4},-6 l${w/4+1.5},6`} stroke={'#FCF9F6'} strokeWidth="3" fill="none"/>}
+          {next && next.type!=='total' && <line x1={x+w} x2={M.l+(i+1)*bw+pad} y1={y(b.end)} y2={y(b.end)} stroke={C.axis} strokeDasharray="3 3"/>}
+          <text x={x+w/2} y={y1-(b.badge?24:8)} textAnchor="middle" fontSize="13" fontWeight="600" fill={C.ink} className="tnum">{fmt.val(b.v, b.type!=='base'&&b.type!=='total')}</text>
+          {b.badge && <text x={x+w/2} y={y1-8} textAnchor="middle" fontSize="11.5" fontWeight="600" className="tnum"
+            fill={b.badgeTone ? (b.v>=0?'#2F6B2A':'#A5321D') : C.ink2}>{b.badgeTone ? (b.v>=0?'▲ ':'▼ ') : ''}{b.badge}</text>}
+          <text x={x+w/2} y={H-M.b+20} textAnchor="middle" fontSize="12" fontWeight="600" fill={C.ink}>{b.short[0]}</text>
+          <text x={x+w/2} y={H-M.b+36} textAnchor="middle" fontSize="12" fill={C.ink2}>{b.short[1]}</text>
+        </g>; })}
+      <line x1={M.l} x2={W-M.r} y1={M.t+ih} y2={M.t+ih} stroke={C.axis}/>
+    </svg>
+    {hover!=null && <Tooltip b={bars[hover]} fmt={fmt} left={(M.l+hover*bw+bw/2)/W*100}/>}
+  </div>;
+}
+function Tooltip({ b, fmt, left }) {
+  const t = b.tip, side = left>58 ? { right:`${100-left+4}%` } : { left:`${left+4}%` };
+  return <div className="absolute top-10 z-10 w-80 card shadow-lg p-3 text-xs pointer-events-none" style={side}>
+    <div className="flex items-center gap-2 font-semibold text-sm mb-1 serif"><span className="w-2.5 h-2.5 rounded-sm" style={{background:b.color}}/>{b.label}</div>
+    <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 tnum">
+      <span style={{color:'var(--muted)'}}>Value</span><span className="text-right font-medium">{fmt.money(b.v, b.type!=='base'&&b.type!=='total')}</span>
+      <span style={{color:'var(--muted)'}}>Store count</span><span className="text-right">{t.stores ?? '—'}</span>
+      <span style={{color:'var(--muted)'}}>Avg per outlet</span><span className="text-right">{t.avg!=null?fmt.money(t.avg):'—'}</span>
+      {t.split && <><span style={{color:'var(--muted)'}}>At same-stores / new</span><span className="text-right">{fmt.money(t.split[0])} / {fmt.money(t.split[1])}</span></>}
+      {t.items!=null && <><span style={{color:'var(--muted)'}}>Innovation items sold</span><span className="text-right">{t.items}</span></>}
+      <span style={{color:'var(--muted)'}}>Running total</span><span className="text-right">{fmt.money(b.end)}</span>
+    </div>
+    <div className="mt-2 pt-2 border-t leading-snug" style={{borderColor:'var(--line)',color:'var(--muted)'}}>{t.formula}</div>
+  </div>;
+}
+
+/* ---------- cannibalization lens ---------- */
+function Cannibalization({ r, fmt }) {
+  const row = (f, name) => { const x = r[f], core = x.sss/x.base, innS = x.innBase/x.base, all = (x.sss+x.innBase)/x.base;
+    const note = r.kind==='forecast' ? 'Modelled: innovation is a run-rate on baseline, so it is additive by assumption.'
+      : core<0 && innS>0 ? `Core sales fell while innovation added ${pct(innS,2)}: innovation offset ${Math.min(100, Math.round(innS/Math.abs(core)*100))}% of the core decline. A decline alongside strong innovation can point to cannibalization; check item-level switching before concluding.`
+      : core>=0 ? 'Core same-store sales grew on their own, with innovation on top: no sign of cannibalization at this level.' : 'Core sales fell and innovation did not offset it.';
+    return <div className="card p-3">
+      <div className="font-semibold serif mb-1">{name}</div>
+      <div className="grid grid-cols-3 gap-2 text-xs tnum">
+        <div><div style={{color:'var(--muted)'}}>Core SSSG (ex-innovation)</div><div className="font-semibold">{fmt.money(x.sss,true)}</div><Badge v={core}/></div>
+        <div><div style={{color:'var(--muted)'}}>Innovation at same stores</div><div className="font-semibold">{fmt.money(x.innBase,true)}</div><Badge v={innS}/></div>
+        <div><div style={{color:'var(--muted)'}}>Total same-store change</div><div className="font-semibold">{fmt.money(x.sss+x.innBase,true)}</div><Badge v={all}/></div>
+      </div>
+      <p className="text-[12px] mt-2 leading-snug" style={{color:'var(--muted)'}}>{note}</p>
+    </div>; };
+  return <section className="mt-4">
+    <h3 className="text-base font-semibold mb-2 flex items-center gap-2"><Icon d={I.scale}/>Innovation vs same-store growth (cannibalization lens)</h3>
+    <div className="grid md:grid-cols-2 gap-3">{row('c','Cafés')}{row('k','Kiosks')}</div>
+  </section>;
+}
+
+/* ---------- 2026 traffic ---------- */
+function Traffic({ r }) {
+  const card = (f, name) => { const x = r[f];
+    const all = x.txCy/x.txLy-1, ss = x.txCyBase/x.txLyBase-1, tkt = (x.cy/x.txCy)/(x.ly/x.txLy)-1;
+    return <div className="card p-4">
+      <div className="font-semibold serif mb-2">{name}</div>
+      <div className="grid grid-cols-3 gap-3 text-xs tnum">
+        <div><div style={{color:'var(--muted)'}}>Transactions</div><div className="text-lg font-semibold">{Math.round(x.txCy).toLocaleString()}</div><Badge v={all}/></div>
+        <div><div style={{color:'var(--muted)'}}>Same-store transactions</div><div className="text-lg font-semibold">{Math.round(x.txCyBase).toLocaleString()}</div><Badge v={ss}/></div>
+        <div><div style={{color:'var(--muted)'}}>Average ticket</div><div className="text-lg font-semibold">₱{(x.cy/x.txCy).toFixed(0)}</div><Badge v={tkt}/></div>
+      </div></div>; };
+  return <div className="grid md:grid-cols-2 gap-3 mb-4">{card('c','Café traffic')}{card('k','Kiosk traffic')}</div>;
+}
+
+/* ---------- sandbox ---------- */
+function Sandbox({ sb, setSb, active, compact }) {
+  const set = k => v => setSb(s => ({ ...s, [k]: v ?? 0 }));
+  const setTier = (f, i, k) => v => setSb(s => { const arr = s[f].map((t,j)=> j===i ? { ...t, [k]: v ?? 0 } : t); return { ...s, [f]: arr }; });
+  const tierTable = (f, fmtKey, title) => <div>
+    <div className="text-xs font-semibold mb-1 flex items-center gap-1.5" style={{color:'var(--espresso)'}}><Icon d={I.store} size={13}/>{title} openings per year</div>
+    <table className="w-full text-xs tnum"><thead><tr style={{color:'var(--muted)'}}><th className="text-left font-medium">Tier</th><th className="text-right font-medium">Stores</th><th className="text-right font-medium">₱M / month</th></tr></thead>
+      <tbody>{sb[f].map((t,i) => { const ref = D.tiers[fmtKey][i];
+        return <tr key={t.tier} className="align-top"><td className="py-1 pr-1"><div className="font-medium" style={{color:'var(--ink)'}}>{t.tier}</div>
+          <div className="text-[11px] leading-tight" style={{color:'#A08E7E'}}>range ₱{(ref.lo/1e6).toFixed(2)}–{(ref.hi/1e6).toFixed(2)}M · e.g. {ref.examples.slice(0,3).join(', ')}</div></td>
+          <td className="py-1 text-right"><input type="number" min="0" step="1" className="field w-14 text-right" value={t.n} disabled={!active} onChange={e=>setTier(f,i,'n')(e.target.value===''?0:+e.target.value)}/></td>
+          <td className="py-1 text-right"><input type="number" min="0" step="0.05" className="field w-20 text-right" value={t.monthly} disabled={!active} onChange={e=>setTier(f,i,'monthly')(e.target.value===''?0:+e.target.value)}/></td></tr>; })}</tbody></table></div>;
+  return <section className="card p-4" style={active?{boxShadow:'0 0 0 2px #FFE7AD'}:{}}>
+    <div className="flex items-center justify-between mb-2">
+      <h3 className="font-semibold flex items-center gap-2 leading-tight"><Icon d={I.sliders}/><span>Forecast sandbox<span className="block text-xs font-normal" style={{color:'var(--muted)'}}>2027–2031</span></span></h3>
+      <button className="btn whitespace-nowrap shrink-0" title="Reset all sandbox inputs (SSSG 5% café / 1% kiosk)" onClick={()=>setSb(DEFAULT_SB)}><Icon d={I.reset} size={12}/>Reset 5%/1%</button>
+    </div>
+    {!active && <p className="text-xs mb-2" style={{color:'var(--muted)'}}>Select a year from 2027 to edit. Your settings still drive the trend view and audit table.</p>}
+    <div className={`grid ${compact?'md:grid-cols-3':'grid-cols-1'} gap-4`}>
+      <div className="space-y-2">
+        <NumField label="Café SSSG" suffix="%" value={sb.gC} min={-20} max={30} onChange={set('gC')} disabled={!active}/>
+        <NumField label="Kiosk SSSG" suffix="%" value={sb.gK} min={-20} max={30} onChange={set('gK')} disabled={!active}/>
+        <NumField label="Café innovation" hint="% of café baseline" suffix="%" step={0.05} value={sb.innC} min={0} max={10} onChange={set('innC')} disabled={!active}/>
+        <NumField label="Kiosk innovation" hint="% of kiosk baseline" suffix="%" step={0.05} value={sb.innK} min={0} max={10} onChange={set('innK')} disabled={!active}/>
+        <NumField label="Months open in opening year" hint="avg; 6 = mid-year opening" step={1} value={sb.monthsFirst} min={1} max={12} onChange={set('monthsFirst')} disabled={!active}/>
+      </div>
+      {tierTable('tiersC','cafe','Café')}
+      {tierTable('tiersK','kiosk','Kiosk')}
+    </div>
+    <p className="text-[11px] mt-3 leading-snug" style={{color:'#A08E7E'}}>Tier ranges = 10th–90th percentile of FY2025 monthly sales per outlet among mature stores, split into thirds by sales (defaults = tier median). Monthly revenue grows with the format's SSSG each year. Stores opened in a year count as new stores that year and the next (13-month rule), then join the baseline. 2026 openings rolled into 2027: {D.cohort26.cafe.n} cafés ({D.cohort26.cafe.names.join(', ')}), {D.cohort26.kiosk.n} kiosks.</p>
+  </section>;
+}
+
+/* ---------- annual targets ---------- */
+function TargetsPanel({ tg, setTg, all, year, showPillars }) {
+  const setT = k => v => setTg(s => ({ ...s, [k]: v }));
+  return <section className="card p-4">
+    <h3 className="font-semibold flex items-center gap-2 mb-3"><Icon d={I.target}/>Annual targets</h3>
+    <div className="space-y-2">
+      <NumField label="2026 target (₱M)" hint="team assumption: FY2025 × 1.0536" w="w-28" value={tg.total!=null ? +(tg.total/1e6).toFixed(2) : null} onChange={v=>setT('total')(v==null?null:v*1e6)}/>
+      <NumField label="2027 YoY growth" hint="on the 2026 target" suffix="%" value={tg.g27} min={-20} max={50} onChange={setT('g27')}/>
+      <NumField label="2028–2031 YoY growth" hint="on each prior-year target" suffix="%" value={tg.gPost} min={-20} max={50} onChange={setT('gPost')}/>
+    </div>
+    <table className="w-full text-xs tnum mt-3">
+      <thead><tr style={{color:'var(--muted)'}}><th className="text-left font-medium py-1">Year</th><th className="text-right font-medium">Target</th><th className="text-right font-medium">Actual / fcst</th><th className="text-right font-medium">Var.</th></tr></thead>
+      <tbody>{TARGET_YEARS.map(y => { const t = targetFor(y, tg), a = tot(all[y],'cy');
+        return <tr key={y} className="border-t" style={{borderColor:'var(--line)', background: y===year ? '#FFF5DD' : ''}}>
+          <td className="py-1 font-medium">{y}<span className="block text-[11px] font-normal" style={{color:'#A08E7E'}}>{growthLabel(y, tg)}</span></td>
+          <td className="text-right">{t!=null ? `₱${(t/1e6).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1})}M` : '—'}</td>
+          <td className="text-right">₱{(a/1e6).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1})}M</td>
+          <td className="text-right">{t!=null ? <Badge v={a/t-1} d={1}/> : '—'}</td></tr>; })}</tbody></table>
+    {showPillars && <div className="mt-4 pt-3 border-t space-y-2" style={{borderColor:'var(--line)'}}>
+      <div className="text-xs font-semibold" style={{color:'var(--espresso)'}}>2026 pillar targets (₱M, full year)</div>
+      <NumField label="New stores – café" w="w-28" value={tg.newC} onChange={setT('newC')}/>
+      <NumField label="New stores – kiosk" w="w-28" value={tg.newK} onChange={setT('newK')}/>
+      <NumField label="Innovation – café" w="w-28" value={tg.innC} onChange={setT('innC')}/>
+      <NumField label="Innovation – kiosk" w="w-28" value={tg.innK} onChange={setT('innK')}/>
+      <p className="text-[11px] leading-snug" style={{color:'#A08E7E'}}>Blank until you enter official figures; until then those bars show % of LY.</p>
+    </div>}
+    <button className="btn mt-3" onClick={()=>setTg(DEFAULT_TG)}><Icon d={I.reset} size={12}/>Reset targets (5% / 2%)</button>
+  </section>;
+}
+
+/* ---------- trend charts ---------- */
+function TrendTotals({ all, fmt, onPick, tg }) {
+  const W=1120, H=300, M={t:30,r:16,b:40,l:86}, iw=W-M.l-M.r, ih=H-M.t-M.b;
+  const rows = [{ year:2024, v:D.T24.cafe+D.T24.kiosk, kind:'actual' }, { year:2025, v:tot(all[2025],'cy'), kind:'actual' },
+    { year:2026, v:tot(all[2026],'cy'), ytd:tot(all['2026ytd'],'cy'), kind:'projected' }, ...FC_YEARS.map(y=>({ year:y, v:tot(all[y],'cy'), kind:'forecast' }))];
+  const [hv, setHv] = useState(null);
+  rows.forEach(r => { r.t = targetFor(r.year, tg); });
+  const max = Math.max(...rows.map(r=>Math.max(r.v, r.t||0))), step = niceStep(max/5), top = Math.ceil(max*1.12/step)*step;
+  const y = v => M.t+ih-v/top*ih, bw = iw/rows.length; const ticks=[]; for (let v=0; v<=top; v+=step) ticks.push(v);
+  return <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label="Total gross sales 2024 to 2031">
+    {ticks.map(t=><g key={t}><line x1={M.l} x2={W-M.r} y1={y(t)} y2={y(t)} stroke={C.grid}/><text x={M.l-10} y={y(t)+4} textAnchor="end" fontSize="12" fill={C.ink2}>{fmt.money(t,false,true).replace('.0M','M')}</text></g>)}
+    {rows.map((r,i)=>{ const x=M.l+i*bw+bw*0.2, w=bw*0.6, prev = i>0 ? rows[i-1].v : null;
+      return <g key={r.year} onMouseEnter={()=>setHv(i)} onMouseLeave={()=>setHv(null)} onClick={()=>r.year>=2025 && onPick(r.year)} style={{cursor:r.year>=2025?'pointer':'default'}}>
+        <rect x={M.l+i*bw} y={M.t} width={bw} height={ih} fill={hv===i?'#3B241808':'transparent'}/>
+        {r.kind==='projected' ? <><rect x={x} y={y(r.v)} width={w} height={y(r.ytd)-y(r.v)-2} rx="4" fill={C.proj}/><rect x={x} y={y(r.ytd)} width={w} height={y(0)-y(r.ytd)} rx="4" fill={C.base}/></>
+          : <rect x={x} y={y(r.v)} width={w} height={y(0)-y(r.v)} rx="4" fill={r.kind==='forecast'?C.fc:C.base} stroke={r.kind==='forecast'?C.total:'none'} strokeDasharray={r.kind==='forecast'?'4 3':''}/>}
+        {r.t!=null && <g><line x1={x-6} x2={x+w+6} y1={y(r.t)} y2={y(r.t)} stroke={C.inn} strokeWidth="2.5" strokeDasharray="6 3"/>
+          <path d={`M${x+w+6},${y(r.t)} l5,-4 l0,8 z`} fill={C.inn}/></g>}
+        <text x={x+w/2} y={Math.min(y(r.v), r.t!=null ? y(r.t) : Infinity)-8} textAnchor="middle" fontSize="12" fontWeight="600" fill={C.ink}>{fmt.money(r.v,false,true)}</text>
+        {hv===i && r.t!=null && <text x={x+w/2} y={y(0)-10} textAnchor="middle" fontSize="11" fontWeight="600" fill="#fff">{pct(r.v/r.t,1,false)} of tgt</text>}
+        {prev && <text x={x+w/2} y={Math.min(y(r.v), r.t!=null ? y(r.t) : Infinity)-24} textAnchor="middle" fontSize="11" fontWeight="600" fill={r.v>=prev?'#2F6B2A':'#A5321D'}>{r.v>=prev?'▲':'▼'} {pct(r.v/prev-1)}</text>}
+        <text x={x+w/2} y={H-M.b+18} textAnchor="middle" fontSize="12" fill={C.ink2}>{r.year}</text>
+      </g>; })}
+    <line x1={M.l} x2={W-M.r} y1={y(0)} y2={y(0)} stroke={C.axis}/>
+  </svg>;
+}
+function SSSGLine({ all }) {
+  const W=1120, H=260, M={t:24,r:110,b:40,l:86}, iw=W-M.l-M.r, ih=H-M.t-M.b;
+  const ys = BRIDGE_YEARS, pts = ys.map(y => ({ y, c:all[y].c.sss/all[y].c.base, k:all[y].k.sss/all[y].k.base, t:tot(all[y],'sss')/tot(all[y],'base') }));
+  const [hv, setHv] = useState(null);
+  const vals = pts.flatMap(p=>[p.c,p.k,p.t]), hi = Math.max(0.02,...vals), lo = Math.min(0,...vals), step = niceStep((hi-lo)/5);
+  const top = Math.ceil(hi/step)*step, bot = Math.floor(lo/step)*step;
+  const x = i => M.l + iw*(i+0.5)/ys.length, y = v => M.t + (top-v)/(top-bot)*ih;
+  const ticks=[]; for (let v=bot; v<=top+1e-9; v+=step) ticks.push(v);
+  const series = [['c','Café SSSG',C.base,''],['k','Kiosk SSSG',C.newS,''],['t','Total SSSG',C.total,'5 4']];
+  const labelY = {}; { const last = pts[pts.length-1]; const order = series.map(([k])=>k).sort((a,b)=>y(last[a])-y(last[b]));
+    let prevY = -Infinity; for (const k of order) { const v = Math.max(y(last[k]), prevY+15); labelY[k] = v; prevY = v; } }
+  return <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label="Same-store sales growth by year">
+    {ticks.map(t=><g key={t}><line x1={M.l} x2={W-M.r} y1={y(t)} y2={y(t)} stroke={Math.abs(t)<1e-9?C.axis:C.grid}/><text x={M.l-10} y={y(t)+4} textAnchor="end" fontSize="12" fill={C.ink2}>{(Math.abs(t)<1e-9?0:t*100).toFixed(1)}%</text></g>)}
+    <rect x={x(2)-iw/ys.length/2} y={M.t} width={iw*5/ys.length} height={ih} fill="#F7EFE6" opacity=".6"/>
+    <text x={x(2)-iw/ys.length/2+6} y={M.t+14} fontSize="11" fill={C.ink2}>Forecast →</text>
+    {series.map(([k,name,col,dash]) => <g key={k}>
+      <polyline points={pts.map((p,i)=>`${x(i)},${y(p[k])}`).join(' ')} fill="none" stroke={col} strokeWidth="2.5" strokeDasharray={dash}/>
+      {pts.map((p,i)=><circle key={i} cx={x(i)} cy={y(p[k])} r="4.5" fill={col} stroke="#fff" strokeWidth="2"/>)}
+      <text x={x(ys.length-1)+12} y={labelY[k]+4} fontSize="12" fontWeight="600" fill={C.ink}>{name}</text>
+    </g>)}
+    {pts.map((p,i)=><g key={p.y} onMouseEnter={()=>setHv(i)} onMouseLeave={()=>setHv(null)}>
+      <rect x={x(i)-iw/ys.length/2} y={M.t} width={iw/ys.length} height={ih} fill="transparent"/>
+      <text x={x(i)} y={H-M.b+18} textAnchor="middle" fontSize="12" fill={C.ink2}>{p.y}</text>
+      {hv===i && <><line x1={x(i)} x2={x(i)} y1={M.t} y2={M.t+ih} stroke={C.axis}/>
+        <text x={x(i)} y={M.t-8} textAnchor="middle" fontSize="11.5" fill={C.ink}>{p.y}: Café {pct(p.c,2)} · Kiosk {pct(p.k,2)} · Total {pct(p.t,2)}</text></>}
+    </g>)}
+  </svg>;
+}
+function TrendContrib({ all }) {
+  const W=1120, H=280, M={t:26,r:16,b:40,l:86}, iw=W-M.l-M.r, ih=H-M.t-M.b;
+  const [hv, setHv] = useState(null);
+  const data = BRIDGE_YEARS.map(y => { const r = all[y], ly = tot(r,'ly'); return { y, s:tot(r,'sss')/ly, n:tot(r,'nw')/ly, i:tot(r,'inn')/ly, nc:-(ly-tot(r,'base'))/ly, yoy:tot(r,'cy')/ly-1 }; });
+  const hi = Math.max(...data.map(d=>Math.max(0,d.s)+d.n+d.i)), lo = Math.min(...data.map(d=>Math.min(0,d.s)+d.nc)), step = niceStep((hi-lo)/6);
+  const top = Math.ceil(hi/step)*step, bot = Math.floor(lo/step)*step, y = v => M.t+(top-v)/(top-bot)*ih, bw = iw/data.length;
+  const ticks=[]; for (let v=bot; v<=top+1e-9; v+=step) ticks.push(v);
+  const segs = d => { const out=[]; let p=0, n=0; const add=(v,col,key,h)=>{ if(v>=0){out.push({key,col,a:p,b:p+v,h});p+=v;} else {out.push({key,col,a:n+v,b:n,h});n+=v;} };
+    add(d.s, d.s>=0?C.pos:C.neg, 's', d.s<0); add(d.n, C.newS, 'n'); add(d.i, C.inn, 'i'); add(d.nc, '#CDBFB1', 'nc'); return out; };
+  return <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label="Growth contribution by pillar">
+    <defs><pattern id="hatchNeg2" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill={C.neg}/><line x1="0" y1="0" x2="0" y2="6" stroke="#fff" strokeOpacity=".45" strokeWidth="2"/></pattern></defs>
+    {ticks.map(t=><g key={t}><line x1={M.l} x2={W-M.r} y1={y(t)} y2={y(t)} stroke={Math.abs(t)<1e-9?C.axis:C.grid}/><text x={M.l-10} y={y(t)+4} textAnchor="end" fontSize="12" fill={C.ink2}>{(Math.abs(t)<1e-9?0:t*100).toFixed(0)}%</text></g>)}
+    {data.map((d,i)=>{ const x=M.l+i*bw+bw*0.27, w=bw*0.46;
+      return <g key={d.y} onMouseEnter={()=>setHv(i)} onMouseLeave={()=>setHv(null)}>
+        <rect x={M.l+i*bw} y={M.t} width={bw} height={ih} fill={hv===i?'#3B241808':'transparent'}/>
+        {segs(d).map(s=><rect key={s.key} x={x} y={y(s.b)} width={w} height={Math.max(0,y(s.a)-y(s.b)-2)} fill={s.h?'url(#hatchNeg2)':s.col} rx="2"/>)}
+        <circle cx={x+w/2} cy={y(d.yoy)} r="5" fill="#fff" stroke={C.ink} strokeWidth="2"/>
+        <text x={x+w/2} y={H-M.b+18} textAnchor="middle" fontSize="12" fill={C.ink2}>{d.y}</text>
+        {hv===i && <text x={W/2} y={M.t-8} textAnchor="middle" fontSize="11.5" fill={C.ink}>{d.y}: SSS {pct(d.s)} · New stores {pct(d.n)} · Innovation {pct(d.i)} · Non-comparable LY stores {pct(d.nc)} = {pct(d.yoy)} YoY</text>}
+      </g>; })}
+  </svg>;
+}
+
+/* ---------- audit table ---------- */
+const PILLARS = [['baseC','1. SS Baseline – Café'],['baseK','2. SS Baseline – Kiosk'],['sssC','3. SS Growth – Café'],['sssK','4. SS Growth – Kiosk'],['newC','5. New Stores – Café'],
+  ['newK','6. New Stores – Kiosk'],['innC','7a. Innovation – Café'],['innK','7b. Innovation – Kiosk'],['total','8. Total Gross Sales']];
+const vals = r => ({ baseC:r.c.base, baseK:r.k.base, sssC:r.c.sss, sssK:r.k.sss, newC:r.c.nw, newK:r.k.nw, innC:r.c.inn, innK:r.k.inn, total:tot(r,'cy'), ly:tot(r,'ly') });
+let _tg = DEFAULT_TG;
+const auditRows = all => [{label:'2025', r:all[2025]}, {label:'2026 YTD (Jan–Sep)', r:all['2026ytd']}, {label:'2026 Balance of year', r:all['2026boy']}, {label:'2026 Full year', r:all[2026]}, ...FC_YEARS.map(y=>({label:String(y), r:all[y]}))];
+function toCSV(all) {
+  const head = ['Period','Status',...PILLARS.map(p=>p[1]),'LY Total Gross Sales','YoY %','Annual / pro-rata target','Variance vs target','% of target','Tie-out (pillars 1-7 minus total)'];
+  const lines = [head, ['2024','actual','','','','','','','','',(D.T24.cafe+D.T24.kiosk).toFixed(2),'','','','','','','']];
+  for (const {label,r} of auditRows(all)) { const v = vals(r), sum = v.baseC+v.baseK+v.sssC+v.sssK+v.newC+v.newK+v.innC+v.innK;
+    const t = periodTarget(r, _tg);
+    lines.push([label, r.kind, ...PILLARS.map(p=>v[p[0]].toFixed(2)), v.ly.toFixed(2), ((v.total/v.ly-1)*100).toFixed(2),
+      t!=null ? t.toFixed(2) : '', t!=null ? (v.total-t).toFixed(2) : '', t!=null ? (v.total/t*100).toFixed(2) : '', (sum-v.total).toFixed(2)]); }
+  return lines.map(l=>l.join(',')).join('\n');
+}
+function AuditTable({ all, fmt, tg, inline=false }) {
+  _tg = tg;
+  const [open, setOpen] = useState(inline), [msg, setMsg] = useState(''), [dl, setDl] = useState(null), [raw, setRaw] = useState(false);
+  useEffect(() => { let on = true; if (window.claude && window.claude.use) window.claude.use('downloads').then(d=>{ if(on) setDl(d); }).catch(()=>{}); return ()=>{ on=false; }; }, []);
+  const copy = async () => { try { await navigator.clipboard.writeText(toCSV(all)); setMsg('CSV copied'); } catch { setMsg('Copy blocked — select the raw CSV instead'); setRaw(true); } };
+  const save = async () => { try { await dl.save({ filename:'SOG_waterfall_audit_2024_2031.csv', data:toCSV(all) }); setMsg('Download started'); } catch { setMsg('Download not completed'); } };
+  return <section className={`card ${inline ? "flex-1 flex flex-col min-h-0" : "mt-5"}`}>
+    <button onClick={()=>setOpen(!open)} className="w-full flex items-center justify-between px-5 py-3 text-left">
+      <span className="flex items-center gap-2 font-semibold serif"><Icon d={I.table}/>Audit table — every pillar, 2024–2031</span><Icon d={I.down} className={open?'rotate-180':''}/></button>
+    {open && <div className={`px-5 pb-5 ${inline ? 'flex-1 flex flex-col min-h-0' : ''}`}>
+      <div className="flex flex-wrap items-center gap-2 mb-3">
+        {dl && <button className="btn" style={{background:'var(--espresso)',color:'#FFF7E6',borderColor:'var(--espresso)'}} onClick={save}><Icon d={I.download} size={14}/>Download CSV</button>}
+        <button className="btn" onClick={copy}><Icon d={I.copy} size={14}/>Copy CSV</button>
+        <button className="btn" onClick={()=>setRaw(!raw)}>{raw?'Hide':'Show'} raw CSV</button><span className="text-xs" style={{color:'var(--muted)'}}>{msg}</span></div>
+      {inline && <div className="text-[11px] mb-1" style={{color:'#A08E7E'}}>Scroll sideways for all 9 pillars, targets and the tie-out check →</div>}
+      <div className="overflow-x-auto"><table className="w-full text-xs tnum">
+        <thead><tr className="border-b" style={{color:'var(--muted)',borderColor:'var(--line)'}}><th className="text-left py-2 pr-3 font-medium sticky left-0 z-[1]" style={{background:'#fff'}}>Period</th><th className="text-left pr-3 font-medium">Status</th>
+          {PILLARS.map(p=><th key={p[0]} className="text-right px-2 font-medium min-w-[86px]">{p[1]}</th>)}<th className="text-right px-2 font-medium">LY total</th><th className="text-right px-2 font-medium">YoY</th><th className="text-right px-2 font-medium">Target</th><th className="text-right px-2 font-medium">vs target</th><th className="text-right pl-2 font-medium">Tie-out</th></tr></thead>
+        <tbody>
+          <tr className="border-b" style={{borderColor:'var(--line)'}}><td className="py-1.5 pr-3 font-medium sticky left-0" style={{background:'#fff'}}>2024</td><td className="pr-3"><KindTag kind="actual"/></td>{PILLARS.slice(0,-1).map(p=><td key={p[0]} className="text-right px-2" style={{color:'#B6A595'}}>—</td>)}<td className="text-right px-2 font-semibold">{fmt.money(D.T24.cafe+D.T24.kiosk)}</td><td colSpan="5" className="text-right text-[11px]" style={{color:'var(--muted)'}}>LY anchor for 2025</td></tr>
+          {auditRows(all).map(({label,r}) => { const v = vals(r), diff = v.baseC+v.baseK+v.sssC+v.sssK+v.newC+v.newK+v.innC+v.innK-v.total, t = periodTarget(r, tg);
+            return <tr key={label} className="border-b" style={{borderColor:'var(--line)', background:r.kind==='forecast'?'#FBF6EF':''}}>
+              <td className={`${inline?'py-2.5':'py-1.5'} pr-3 font-medium whitespace-nowrap sticky left-0`} style={{background:r.kind==='forecast'?'#FBF6EF':'#fff'}}>{label}</td><td className="pr-3 whitespace-nowrap"><KindTag kind={r.kind}/></td>
+              {PILLARS.map(p=><td key={p[0]} className={`text-right px-2 ${p[0]==='total'?'font-semibold':''}`} style={{color: p[0].startsWith('sss') && v[p[0]]<0 ? '#A5321D' : undefined}}>{fmt.money(v[p[0]], p[0].startsWith('sss'))}</td>)}
+              <td className="text-right px-2">{fmt.money(v.ly)}</td><td className="text-right px-2"><Badge v={v.total/v.ly-1} d={1}/></td>
+              <td className="text-right px-2">{t!=null ? fmt.money(t) : '—'}</td><td className="text-right px-2">{t!=null ? <Badge v={v.total/t-1} d={1}/> : '—'}</td>
+              <td className="text-right pl-2" style={{color:'#2F6B2A'}}>{Math.abs(diff)<0.01?'✓ ₱0.00':diff.toFixed(2)}</td></tr>; })}
+        </tbody></table></div>
+      {raw && <textarea readOnly value={toCSV(all)} className="mt-3 w-full h-40 font-mono text-[11px] field" onFocus={e=>e.target.select()}/>}
+      {inline && (() => { const rows = auditRows(all), ok = rows.every(({r}) => { const v = vals(r); return Math.abs(v.baseC+v.baseK+v.sssC+v.sssK+v.newC+v.newK+v.innC+v.innK-v.total) < 0.01; });
+        return <div className="mt-auto pt-3 flex flex-wrap items-center gap-2 text-[12px]" style={{color:'var(--muted)'}}>
+          <span className={`pill ${ok?'pos':'neg'}`}>{ok ? '✓' : '!'} {rows.length} of {rows.length} periods tie out</span>
+          <span>Pillars 1–7 = total gross sales · targets follow the Annual targets panel</span></div>; })()}
+    </div>}
+  </section>;
+}
+
+/* ---------- app ---------- */
+function App() {
+  const [year, setYear] = useState(2025);
+  const [view, setView] = useState('bridge');
+  const [period, setPeriod] = useState('ytd');
+  const [lens, setLens] = useState('sales');
+  const [unit, setUnit] = useState('M');
+  const [cur, setCur] = useState('PHP');
+  const [fx, setFx] = useState(58.0);
+  const [zoom, setZoom] = useState(true);
+  const [sb, setSb] = useState(DEFAULT_SB);
+  const [tg, setTg] = useState(DEFAULT_TG);
+  _months = sb.monthsFirst;
+  const all = useMemo(() => buildAll(sb), [sb]);
+  const is26 = year === 2026, fcst = year >= 2027;
+  const r = is26 ? (period==='ytd' ? all['2026ytd'] : period==='boy' ? all['2026boy'] : all[2026]) : all[year];
+  const fmt = makeFmt(unit==='pct'?'M':unit, cur, fx, tot(r,'cy'));
+  const fmtBars = makeFmt(unit, cur, fx, tot(r,'cy'));
+  const tgtTotal = periodTarget(r, tg);
+  const bars = barsFor(r, tg, tgtTotal);
+  const showSandbox = fcst;                 // V3: sandbox only for forecast years in the bridge view
+  const showAside = showSandbox || is26 || fcst;
+  const auditInline = view==='bridge' && fcst;   // V4: fill the space beside the tall forecast side panel
+  const ly = tot(r,'ly'), cy = tot(r,'cy');
+  const lyLabel = is26 ? (period==='ytd' ? 'Jan–Sep 2025' : period==='boy' ? 'Oct–Dec 2025' : 'FY2025') : `FY${year-1}`;
+  const setT = k => v => setTg(s => ({ ...s, [k]: v }));
+
+  return <div className="max-w-[1260px] mx-auto px-4 sm:px-6 py-6">
+    <header className="flex flex-wrap items-end justify-between gap-3 mb-5">
+      <div>
+        <div className="text-xs font-semibold tracking-[0.2em] uppercase" style={{color:'var(--amber)'}}>Mary Grace · Sources of Growth</div>
+        <h1 className="text-3xl font-bold">SOG Multi-Year Waterfall <span style={{color:'#A08E7E'}}>2024–2031</span></h1>
+        <p className="text-sm mt-1" style={{color:'var(--muted)'}}>Café + kiosk gross sales from POS (incl. service charge; not audited financials) · actuals through {D.asof}</p>
+      </div>
+      <div className="flex gap-3 text-xs" style={{color:'var(--muted)'}}>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{background:C.base}}/>Actual</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm" style={{background:C.proj}}/>2026 projection</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm border border-dashed" style={{background:C.fc,borderColor:C.total}}/>Forecast</span>
+      </div>
+    </header>
+
+    <div className="card p-3 flex flex-wrap items-center gap-3 mb-4">
+      <Seg label="View" value={view} onChange={setView} options={[{value:'bridge',label:'Full-Year Bridge',icon:I.bars},{value:'trend',label:'Multi-Year Trend',icon:I.trend}]}/>
+      {view==='bridge' && <div className="flex items-center gap-1">
+        <button className="btn" aria-label="Previous year" disabled={year===2025} onClick={()=>setYear(y=>Math.max(2025,y-1))}><Icon d={I.left}/></button>
+        <select className="field font-semibold py-1.5" value={year} onChange={e=>setYear(+e.target.value)}>
+          {BRIDGE_YEARS.map(y=><option key={y} value={y}>{y} vs {y-1}{y===2026?' · tracking':y>=2027?' · forecast':''}</option>)}</select>
+        <button className="btn" aria-label="Next year" disabled={year===2031} onClick={()=>setYear(y=>Math.min(2031,y+1))}><Icon d={I.right}/></button>
+      </div>}
+      {view==='bridge' && is26 && <Seg label="2026 period" value={period} onChange={setPeriod} options={[{value:'ytd',label:'YTD actual'},{value:'boy',label:'Balance of year'},{value:'fy',label:'Full year'}]}/>}
+      {view==='bridge' && is26 && <Seg label="2026 lens" value={lens} onChange={setLens} options={[{value:'sales',label:'Sales'},{value:'traffic',label:'Traffic',icon:I.users}]}/>}
+      <Seg label="Units" value={unit} onChange={setUnit} options={[{value:'exact',label:'Exact'},{value:'M',label:'Millions'},{value:'pct',label:'% of total'}]}/>
+      <Seg label="Currency" value={cur} onChange={setCur} options={[{value:'PHP',label:'₱'},{value:'USD',label:'$'}]}/>
+      {cur==='USD' && <label className="text-xs flex items-center gap-1" style={{color:'var(--muted)'}}>₱ per $ <input type="number" step="0.1" className="field w-16 tnum" value={fx} onChange={e=>setFx(+e.target.value||1)}/> (assumption)</label>}
+      {view==='bridge' && <label className="text-xs flex items-center gap-1.5 ml-auto" style={{color:'var(--muted)'}}><input type="checkbox" checked={zoom} onChange={e=>setZoom(e.target.checked)}/>Zoom axis</label>}
+    </div>
+
+    {view==='bridge' && <>
+      {is26 && lens==='traffic' && <Traffic r={r}/>}
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-4">
+        <Kpi title={is26 ? `2026 gross sales · ${period==='ytd'?'YTD':period==='boy'?'Oct–Dec':'full year'}` : `${year} gross sales`} value={fmt.money(cy)}
+          badge={tgtTotal ? <span className={`pill ${cy>=tgtTotal?'pos':'neg'}`}>{pct(cy/tgtTotal,1,false)} of target</span> : null}>
+          <Row label="Café" v={r.c.cy} fmt={fmt} signed={false}/><Row label="Kiosk" v={r.k.cy} fmt={fmt} signed={false}/>
+          {tgtTotal && <div className="text-[11px]" style={{color:'var(--muted)'}}>{r.period==='fy'?'Annual target':'Pro-rata target'} {fmt.money(tgtTotal)} ({growthLabel(year, tg)}) · variance {fmt.money(cy-tgtTotal,true)}</div>}
+        </Kpi>
+        <Kpi title={`Variance vs ${lyLabel}`} value={fmt.money(cy-ly,true)} badge={<Badge v={cy/ly-1}/>}>
+          <Row label="Café" v={r.c.cy-r.c.ly} p={r.c.cy/r.c.ly-1} fmt={fmt}/><Row label="Kiosk" v={r.k.cy-r.k.ly} p={r.k.cy/r.k.ly-1} fmt={fmt}/>
+          <div className="text-[11px]" style={{color:'var(--muted)'}}>LY {fmt.money(ly)}</div>
+        </Kpi>
+        <Kpi title="Organic same-store" value={fmt.money(tot(r,'sss'),true)} badge={<Badge v={tot(r,'sss')/ly}/>}>
+          <Row label="Café"  v={r.c.sss} p={r.c.sss/r.c.base} fmt={fmt}/><Row label="Kiosk"  v={r.k.sss} p={r.k.sss/r.k.base} fmt={fmt}/>
+          <div className="text-[11px]" style={{color:'var(--muted)'}}>{r.c.nBase} cafés · {r.k.nBase} kiosks · rows = SSSG vs baseline</div>
+        </Kpi>
+        <Kpi title="Expansion · new stores" value={fmt.money(tot(r,'nw'),true)} badge={<Badge v={tot(r,'nw')/ly}/>}>
+          <Row label="Café"  v={r.c.nw} p={r.c.nw/ly} fmt={fmt}/><Row label="Kiosk"  v={r.k.nw} p={r.k.nw/ly} fmt={fmt}/>
+          <div className="text-[11px]" style={{color:'var(--muted)'}}>{r.c.nNew} cafés · {r.k.nNew} kiosks · less LY non-baseline stores {fmt.money(-(ly-tot(r,'base')),true)}</div>
+        </Kpi>
+        <Kpi title="Innovation" value={fmt.money(tot(r,'inn'),true)} badge={<Badge v={tot(r,'inn')/ly}/>}>
+          <Row label="Café" v={r.c.inn} p={r.c.inn/ly} fmt={fmt}/><Row label="Kiosk" v={r.k.inn} p={r.k.inn/ly} fmt={fmt}/>
+          <div className="text-[11px]" style={{color:'var(--muted)'}}>{fcst ? 'Run-rate on baseline' : `At same stores ${fmt.money(tot(r,'innBase'))} · new stores ${fmt.money(tot(r,'innNew'))}`}</div>
+        </Kpi>
+      </div>
+
+      <div className={`grid grid-cols-1 gap-4 ${showAside ? 'xl:grid-cols-[1fr_340px]' : ''}`}>
+        <div className="min-w-0 flex flex-col">
+          <section className="card p-4">
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div><h2 className="text-xl font-semibold">Where the {year}{is26?` ${period==='ytd'?'YTD':period==='boy'?'balance-of-year':'full-year'}`:''} growth came from</h2>
+                <div className="text-sm" style={{color:'var(--muted)'}}>{is26 ? PERIOD_LABEL[period] : 'Full year'} · {year} vs {year-1} · {unit==='pct'?'% of ending total':cur==='USD'?'US dollars':'Philippine pesos'}</div></div>
+              <KindTag kind={r.kind}/></div>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs mt-2" style={{color:'var(--muted)'}}>
+              {[[C.base,'Same-store baseline'],[C.pos,'Same-store growth ▲'],[C.neg,'Same-store decline ▼ (hatched)'],[C.newS,'New stores'],[C.inn,'Innovation'],[C.total,'Ending total']].map(([c,l])=>
+                <span key={l} className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm" style={{background:c}}/>{l}</span>)}</div>
+            <Waterfall bars={bars} fmt={fmtBars} zoom={zoom} title={`SOG waterfall ${year}`}/>
+            <p className="text-xs leading-relaxed" style={{color:'var(--muted)'}}>
+              {zoom && 'Axis does not start at zero (zigzag = truncated bar). '}Pillars 1–7 tie exactly to the ending total.
+              {is26 && period!=='ytd' && ' Oct–Dec 2026 is projected: Jan–Sep actual × FY2025/9M2025 seasonality per format.'}
+              {tgtTotal && ` The total bar's target badge uses the ${year} annual target (${growthLabel(year, tg)})` + (r.period==='ytd' ? ', pro-rated to Jan–Sep with 2025 seasonality.' : r.period==='boy' ? ', pro-rated to Oct–Dec with 2025 seasonality.' : '.')}
+              {fcst && ' Forecast year: actual-only indicators (traffic, store-level innovation split, pillar targets) are hidden.'}
+            </p>
+          </section>
+          <Cannibalization r={r} fmt={fmt}/>
+          {auditInline && <div className="mt-4 hidden xl:flex flex-1 flex-col min-h-0"><AuditTable key="audit-inline" all={all} fmt={fmt} tg={tg} inline={true}/></div>}
+        </div>
+        {showAside && <aside className="space-y-4">
+          {showSandbox && <Sandbox sb={sb} setSb={setSb} active={true}/>}
+          <TargetsPanel tg={tg} setTg={setTg} all={all} year={year} showPillars={is26}/>
+        </aside>}
+      </div>
+    </>}
+
+    {view==='trend' && <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-4">
+      <div className="space-y-4 min-w-0">
+        <section className="card p-4"><h2 className="text-xl font-semibold">Total gross sales, 2024–2031</h2>
+          <p className="text-sm mb-2" style={{color:'var(--muted)'}}>2026 = Jan–Sep actual (dark) + Oct–Dec projection (light). 2027–2031 roll each year's ending store base forward. Click a bar to open its bridge.</p>
+          <div className="flex flex-wrap gap-x-4 text-xs mb-1" style={{color:'var(--muted)'}}><span className="flex items-center gap-1.5"><span className="w-4 border-t-2 border-dashed" style={{borderColor:C.inn}}/>Annual target (2026 team target, +{tg.g27}% in 2027, +{tg.gPost}%/yr 2028–2031)</span></div>
+          <TrendTotals all={all} fmt={fmt} tg={tg} onPick={y=>{ setYear(y); setView('bridge'); }}/></section>
+        <section className="card p-4"><h2 className="text-xl font-semibold">Same-store sales growth, 2025–2031</h2>
+          <p className="text-sm mb-2" style={{color:'var(--muted)'}}>SSSG excluding innovation, vs each year's same-store baseline. 2027 onward follows the sandbox rates.</p>
+          <SSSGLine all={all}/></section>
+        <section className="card p-4"><h2 className="text-xl font-semibold">What drove each year's growth</h2>
+          <p className="text-sm mb-2" style={{color:'var(--muted)'}}>Pillar contribution as % of prior-year sales; the dot is the YoY change. Gray = LY sales of stores outside the baseline.</p>
+          <div className="flex flex-wrap gap-x-4 text-xs mb-1" style={{color:'var(--muted)'}}>
+            {[[C.pos,'Same-store growth'],[C.neg,'Same-store decline'],[C.newS,'New stores'],[C.inn,'Innovation'],['#CDBFB1','Non-comparable LY stores']].map(([c,l])=><span key={l} className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm" style={{background:c}}/>{l}</span>)}
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full border-2" style={{borderColor:C.ink}}/>YoY total</span></div>
+          <TrendContrib all={all}/></section>
+      </div>
+      <aside className="space-y-4"><Sandbox sb={sb} setSb={setSb} active={true}/><TargetsPanel tg={tg} setTg={setTg} all={all} year={null} showPillars={false}/></aside>
+    </div>}
+
+    {!auditInline && <AuditTable key="audit-full" all={all} fmt={fmt} tg={tg}/>}
+    {auditInline && <div className="xl:hidden"><AuditTable key="audit-stacked" all={all} fmt={fmt} tg={tg}/></div>}
+
+    <footer className="text-[11px] mt-5 leading-relaxed" style={{color:'var(--muted)'}}>
+      <p><b>Same-store rule.</b> An outlet joins the baseline only after completing 13 full months of operation by 1 January of the bridge year (opening dates from One Mary Grace) and having sales in all 12 months of the prior year. Same-store growth = CY gross of baseline outlets minus their CY innovation sales, minus the baseline. New stores = CY gross of all other outlets, excluding innovation. Innovation = CY item gross of items first sold company-wide in that year (Innovation_2025 / Innovation_2026 lists, matched by item ID), split by café and kiosk and by same-store vs new-store outlets. Innovation is item revenue before service charge; store gross includes it.</p>
+      <p className="mt-1"><b>Sources.</b> 2024–2026 from the uploaded store_month, iss_* and Innovation files; head-office "Others" excluded. 2026 balance of year and full year are projections. 2027–2031 are sandbox forecasts.</p>
+    </footer>
+  </div>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
